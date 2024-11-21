@@ -6,10 +6,12 @@ import (
 	"net/http"
 
 	"rudrprasad.com/backend/database"
+	"rudrprasad.com/backend/logs"
 )
 
 type Routes struct {
 	DB *sql.DB
+	LOG *logs.Logger
 }
 
 
@@ -39,5 +41,4 @@ func (routes *Routes) PostRegisterUser(w http.ResponseWriter, r *http.Request){
 
 	sendJSONResponse(w, http.StatusOK, newUser)
 	return
-
 }

@@ -2,12 +2,20 @@ package routes
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 )
 
 type Message struct {
 	Data string `json:"data"`
 }
+
+func (routes *Routes) Handle404(w http.ResponseWriter, r *http.Request){
+	routes.LOG.Error(fmt.Sprintf("404 Not Found: %s", r.URL.Path))
+	data := Message{Data: "404 not found"}
+	sendJSONResponse(w, http.StatusNotFound, data)
+}
+
 
 func (routes *Routes) GetHome(w http.ResponseWriter, r *http.Request){
 	data := Message{Data: "hello"}

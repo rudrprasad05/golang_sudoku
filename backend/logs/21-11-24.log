@@ -1,0 +1,15 @@
+2024-11-21 13:22:57 - INFO - hello route accessed
+2024-11-21 13:23:13 - INFO - hello route accessed
+2024-11-21 13:28:09 - HTTP - HTTP request: GET /
+2024-11-21 13:28:09 - INFO - hello route accessed
+2024-11-21 13:28:54 - HTTP - HTTP request: GET /
+2024-11-21 13:30:57 - HTTP - HTTP request: GET /
+2024-11-21 13:33:26 - HTTP - HTTP request: GET /
+2024-11-21 13:34:36 - HTTP - HTTP request: POST /auth/login
+2024-11-21 13:41:10 - HTTP - HTTP request: POST /auth/login
+2024-11-21 13:41:14 - HTTP - HTTP request: POST /auth/login
+2024-11-21 13:41:40 - HTTP - HTTP request: POST /auth/login
+2024-11-21 13:41:46 - HTTP - HTTP request: POST /auth/login
+2024-11-21 13:44:05 - HTTP - HTTP request: POST /auth/login
+2024-11-21 13:44:05 - HTTP - HTTP request: POST /404
+2024-11-21 13:44:05 - ERROR - 404 Not Found: /404
