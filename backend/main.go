@@ -47,13 +47,20 @@ func main() {
 	router.HandleFunc("/404", routes.Handle404)
 	router.HandleFunc("/", routes.GetHome).Methods("GET")
 	router.HandleFunc("/api/auth/register", routes.PostRegisterUser).Methods("POST")
+	router.HandleFunc("/api/auth/login", routes.PostLoginUser).Methods("POST")
+
+	protected := router.PathPrefix("/game").Subrouter()
+	protected.Use(routes.AuthMiddleware)
+
+	protected.HandleFunc("", func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte("Welcome to the protected route!"))
+	}).Methods("GET")
+
 
 	// redirect handler
 	router.NotFoundHandler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/404", http.StatusTemporaryRedirect)
 	})
-
-
 	// middleware
 	corsRouter := routes.CorsMiddleware(router)
 	loggedHandler := logs.LoggingMiddleware(logger, corsRouter)
