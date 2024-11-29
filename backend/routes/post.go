@@ -4,12 +4,11 @@ import (
 	"database/sql"
 	"encoding/json"
 	"net/http"
-	"time"
 
 	"github.com/dgrijalva/jwt-go"
+	"github.com/rudrprasad05/go-logs/logs"
 	"golang.org/x/crypto/bcrypt"
 	"rudrprasad.com/backend/database"
-	"rudrprasad.com/backend/logs"
 )
 
 type Routes struct {
@@ -24,24 +23,7 @@ type Claims struct {
 
 var jwtSecret = []byte("your_secret_key")
 
-func GenerateJWT(email string) (string, error) {
-	// Set token expiration time
-	expirationTime := time.Now().Add(24 * time.Hour)
 
-	// Create claims
-	claims := &Claims{
-		Email: email,
-		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: expirationTime.Unix(),
-		},
-	}
-
-	// Create the token
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-
-	// Sign the token
-	return token.SignedString(jwtSecret)
-}
 
 func (routes *Routes) PostLoginUser(w http.ResponseWriter, r *http.Request){
 	var user database.User

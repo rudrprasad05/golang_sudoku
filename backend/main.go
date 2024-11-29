@@ -1,18 +1,62 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/mux"
+	"github.com/rudrprasad05/go-logs/logs"
 	"rudrprasad.com/backend/database"
-	"rudrprasad.com/backend/logs"
 	"rudrprasad.com/backend/routes"
 )
 
+const size = 9
+var board [size][size]int;
+
+func DrawBoard(){
+	width, height := 9,9
+	// var board [width][height]int;
+
+	for i := 0; i < height; i++{
+		for j := 0; j < width; j++{
+			fmt.Print(".")
+			if (j + 1) % 3 == 0 {
+				fmt.Print("|")
+			} 
+			
+		}
+		fmt.Print("\n")
+		if (i + 1) % 3 == 0 {
+			for j := 0; j < width; j++{
+				fmt.Print("-")
+				
+			}
+			fmt.Print("\n")
+		}
+		
+	}
+}
+
+func PrintBoard(board [size][size]int) {
+	for i, row := range board {
+		if i%3 == 0 && i != 0 {
+			fmt.Println("---------------------")
+		}
+		for j, val := range row {
+			if j%3 == 0 && j != 0 {
+				fmt.Print("| ")
+			}
+			fmt.Printf("%d ", val)
+		}
+		fmt.Println()
+	}
+}
+
 
 func main() {
+	PrintBoard(board)
 	
 	router := mux.NewRouter()
 	config := database.Config{
@@ -46,8 +90,8 @@ func main() {
 	// routes
 	router.HandleFunc("/404", routes.Handle404)
 	router.HandleFunc("/", routes.GetHome).Methods("GET")
-	router.HandleFunc("/api/auth/register", routes.PostRegisterUser).Methods("POST")
-	router.HandleFunc("/api/auth/login", routes.PostLoginUser).Methods("POST")
+	router.HandleFunc("/auth/register", routes.PostRegisterUser).Methods("POST")
+	router.HandleFunc("/auth/login", routes.PostLoginUser).Methods("POST")
 
 	protected := router.PathPrefix("/game").Subrouter()
 	protected.Use(routes.AuthMiddleware)
