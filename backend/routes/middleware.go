@@ -33,8 +33,13 @@ func (routes *Routes) AuthMiddleware(next http.Handler) http.Handler {
 		// Extract token from Authorization header
 		authHeader := r.Header.Get("Authorization")
 		fmt.Printf(authHeader)
-		if authHeader == "" || !strings.HasPrefix(authHeader, "Bearer ") {
+		if authHeader == "" {
 			data := Message{Data: "invalid or no jwt token"}
+			sendJSONResponse(w, http.StatusBadRequest, data)
+			return
+		}
+		if !strings.HasPrefix(authHeader, "Bearer "){
+			data := Message{Data: "missing bearer"}
 			sendJSONResponse(w, http.StatusBadRequest, data)
 			return
 		}

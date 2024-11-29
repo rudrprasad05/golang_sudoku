@@ -78,14 +78,9 @@ func main() {
 	routes := &routes.Routes{DB: db, LOG: logger}
 	if err != nil {
 		log.Fatalf("Database initialization failed: %v", err)
+		logger.Error("failed to create db")
 	}
 	defer db.Close()
-
-	// err = database.CreateTableOnce(db, "users", database.CreateUserTable())
-	// if err != nil {
-	// 	log.Fatalf("Error initializing table: %v", err)
-	// }
-
 
 	// routes
 	router.HandleFunc("/404", routes.Handle404)
